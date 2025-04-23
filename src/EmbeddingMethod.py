@@ -1,20 +1,17 @@
-#!/usr/bin/env python3
+ #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Multiplex Hyperbolic Embedding (MLNHypEmb)
+Created on Mon Dec 30 17:49:31 2024
 
-A Python implementation for embedding multiplex networks into hyperbolic space using the Poincaré disk model.
-This module handles networks where all layers have the same number of nodes.
+@author: martin.guillemaud
 
-Key Features:
-- Supports multiple embedding methods (Isomap, Spectral)
-- Implements various radius computation strategies
-- Handles edge weighting and inter-layer coupling
-- Provides parallel processing capabilities
+Multiplex Hyperbolic Embedding Class
 
-Author: Martin Guillemaud
-Created: Dec 30, 2024
+Copyright (c) 2025, Martin Guillemaud. All rights reserved.
+Use of this source code is governed by a BSD-style license that can be
+found in the LICENSE file in the root directory of this source tree.
 """
+
 
 ## LIBRAIRIES IMPORTATION
 from sklearn.metrics import pairwise_distances
@@ -329,10 +326,7 @@ class MlHypEmb:
             # Compute node order based on degree
             order_i = np.array([np.where(deg_i_u == deg)[0][0] + 1 for deg in deg_i])
 
-            # Calculate radius based on chosen method:
-            # - 'order': Uses node order and network size
-            # - 'degree': Uses hyperbolic tangent of node degrees
-            # - 'logdegree': Uses power law of node degrees
+            # Compute the radius for each node based on the chosen strategy
             if self.radius == 'order':
                 radius_i = 2 / self.eta * (self.beta * np.log(order_i) + (1 - self.beta) * np.log(self.n_nodes))
             elif self.radius == 'degree':
@@ -340,14 +334,14 @@ class MlHypEmb:
             elif self.radius == 'logdegree':
                 radius_i = 1 / (np.array(deg_i) + 1) ** self.beta
 
-            # Project nodes onto hyperbolic space by scaling normalized coordinates with computed radii
+            # Scale the normalized embeddings by the computed radii
             emb_i_r = emb_i_n * radius_i[:, np.newaxis]
 
-            # Store both the normalized (unit disk) and radius-scaled (hyperbolic) embeddings
+            # Store the results
             emb_n_tot.append(emb_i_n)
             emb_r_tot.append(emb_i_r)
 
-        # Save the parallel processing configuration and final embeddings
+        # Save results as class attributes
         self.n_jobs = n_jobs
         self.embeddings = emb_r_tot
 

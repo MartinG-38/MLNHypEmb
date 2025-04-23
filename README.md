@@ -130,15 +130,17 @@ If you use MLNHypEmb in your research, please cite:
 }
 ```
 
+**If you use this library for published work, please also cite the associated paper (citation will be provided here once published).**
+
 ---
 
 ## License
 
-MIT License
+BSD 3-Clause License
 
 ---
 
 ## Contact
 
-For questions, suggestions, or contributions, please open an issue or contact the author at martin.guillemaud@icm-institute.org.
+For questions, suggestions, or contributions, please open an issue or contact the author at martin.guillemaud [at] gmail [dot] com.
 

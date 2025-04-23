@@ -1,15 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Dec 30 17:52:35 2024
+Multiplex Network Data Handling and Generation
 
-@author: martin.guillemaud
+This module provides utilities for loading and generating multiplex network data:
+- Reading multiplex network data from various file formats
+- Generating synthetic multiplex networks using Stochastic Block Models (SBM)
+- Supporting both symmetric and perturbed network generation
 
-Open multiplex data 
+Key Features:
+- Flexible file format support (CSV and custom formats)
+- SBM-based network generation with community structure
+- Controlled perturbation of network layers
+- Comprehensive input validation
 
+Author: Martin Guillemaud
+Created: Dec 30, 2024
 """
 
-## LIBRAIRIES 
+## LIBRARIES 
 
 import pandas as pd
 import networkx as nx
@@ -142,13 +151,17 @@ def ReadMultiplexData(filenames):
 
 def generate_binary_value(p):
     """
-    Génère une valeur binaire (0 ou 1) où 1 est obtenu avec une probabilité p.
+    Generate a binary value (0 or 1) with specified probability.
     
-    Args:
-        p (float): Probabilité d'obtenir 1 (entre 0 et 1).
+    Parameters
+    ----------
+    p : float
+        Probability of generating 1 (must be between 0 and 1)
     
-    Returns:
-        int: 0 ou 1.
+    Returns
+    -------
+    int
+        0 or 1, where 1 occurs with probability p
     """
     return 1 if random.uniform(0, 1) < p else 0
 
@@ -296,55 +309,47 @@ def generate_sbm_multilayer(n_nodes=100, n_layers=3, n_communities=3,
 def generate_sbm_multilayer_perturbation(n_nodes=100, n_layers=3, n_communities=3, 
                             p_intra=0.16, p_inter=0.05, mu=1000, beta=10, perturbation=[0.02, 0.02]):
     """
-    Generates a Stochastic Block Model (SBM) multilayer network with specified intra- 
-    and inter-layer connectivity probabilities.
+    Generate a perturbed multilayer Stochastic Block Model network.
+    
+    Extends the standard SBM by introducing controlled perturbations to specific layers,
+    allowing for the study of network resilience and community detection under noise.
 
     Parameters
     ----------
     n_nodes : int, optional
-        Number of nodes per layer. Must be a positive integer. Default is 100.
+        Number of nodes per layer. Default: 100
     n_layers : int, optional
-        Number of layers in the SBM multilayer network. Must be a positive integer. Default is 3.
+        Number of network layers. Default: 3
     n_communities : int, optional
-        Number of communities (blocks) in the network. Must be a positive integer <= n_nodes. Default is 3.
+        Number of communities in the network. Default: 3
     p_intra : float, optional
-        Probability of intra-community edges within a layer. Must be in [0, 1]. Default is 0.16.
+        Base probability of intra-community edges. Default: 0.16
     p_inter : float, optional
-        Probability of inter-community edges within a layer. Must be in [0, 1]. Default is 0.05.
+        Base probability of inter-community edges. Default: 0.05
     mu : float, optional
-        Multiplicative factor for inter-layer self-connections. Must be non-negative. Default is 1000.
+        Self-connection strength between layers. Default: 1000
     beta : float, optional
-        Scaling factor for inter-layer connectivity probabilities. Must be positive. Default is 10.
-    perturbations : float, optional
-        Pertuabtion of the probability of connexions from the second layer 
-
+        Inter-layer connectivity scaling. Default: 10
+    perturbation : list of float, optional
+        [intra_perturbation, inter_perturbation] for layer 2. Default: [0.02, 0.02]
+        
     Returns
     -------
     tuple
-        - G_tot : list of networkx.Graph
-            List of graphs representing individual layers.
-        - mat_tot = list of np.array
-            List of the connectivity maytrices of the layers
-        - G_global : numpy.ndarray
-            Global adjacency matrix of the multilayer network.
-        - node_com : dict
-            Mapping of node IDs to community (block) IDs.
+        (G_tot, mat_tot, G_global, node_com) containing:
+        - Network graphs for each layer
+        - Adjacency matrices
+        - Global connectivity matrix
+        - Node-to-community mapping
 
-    Raises
-    ------
-    ValueError
-        If any of the input parameters are invalid.
-
-    Notes
-    -----
-    - The intra-layer connections follow a standard SBM structure, where nodes are grouped 
-      into communities, and edges are added with different probabilities depending on 
-      whether nodes belong to the same or different communities.
-    - Inter-layer connections are added probabilistically, scaled by the parameter `beta`.
-
-    Example
-    -------
-    >>> G_tot, G_global, node_com = generate_sbm_multilayer()
+    Mathematical Details
+    ------------------
+    - Layer 2 probabilities:
+      p_intra_effective = p_intra + perturbation[0]
+      p_inter_effective = p_inter + perturbation[1]
+    - Inter-layer scaling:
+      p_intra_layer = p_intra / beta
+      p_inter_layer = p_inter / beta
     """
     # --- Validate Parameters ---
     if not isinstance(n_nodes, int) or n_nodes <= 0:

@@ -1,14 +1,20 @@
- #!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Dec 30 17:49:31 2024
+Multiplex Hyperbolic Embedding (MLNHypEmb)
 
-@author: martin.guillemaud
+A Python implementation for embedding multiplex networks into hyperbolic space using the Poincaré disk model.
+This module handles networks where all layers have the same number of nodes.
 
-Multiplex Hyperbolic EMbedding Class
+Key Features:
+- Supports multiple embedding methods (Isomap, Spectral)
+- Implements various radius computation strategies
+- Handles edge weighting and inter-layer coupling
+- Provides parallel processing capabilities
 
+Author: Martin Guillemaud
+Created: Dec 30, 2024
 """
-
 
 ## LIBRAIRIES IMPORTATION
 from sklearn.metrics import pairwise_distances
@@ -323,7 +329,10 @@ class MlHypEmb:
             # Compute node order based on degree
             order_i = np.array([np.where(deg_i_u == deg)[0][0] + 1 for deg in deg_i])
 
-            # Compute the radius for each node based on the chosen strategy
+            # Calculate radius based on chosen method:
+            # - 'order': Uses node order and network size
+            # - 'degree': Uses hyperbolic tangent of node degrees
+            # - 'logdegree': Uses power law of node degrees
             if self.radius == 'order':
                 radius_i = 2 / self.eta * (self.beta * np.log(order_i) + (1 - self.beta) * np.log(self.n_nodes))
             elif self.radius == 'degree':
@@ -331,14 +340,14 @@ class MlHypEmb:
             elif self.radius == 'logdegree':
                 radius_i = 1 / (np.array(deg_i) + 1) ** self.beta
 
-            # Scale the normalized embeddings by the computed radii
+            # Project nodes onto hyperbolic space by scaling normalized coordinates with computed radii
             emb_i_r = emb_i_n * radius_i[:, np.newaxis]
 
-            # Store the results
+            # Store both the normalized (unit disk) and radius-scaled (hyperbolic) embeddings
             emb_n_tot.append(emb_i_n)
             emb_r_tot.append(emb_i_r)
 
-        # Save results as class attributes
+        # Save the parallel processing configuration and final embeddings
         self.n_jobs = n_jobs
         self.embeddings = emb_r_tot
 

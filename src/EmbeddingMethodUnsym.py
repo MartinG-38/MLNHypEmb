@@ -1,16 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Dec 30 17:49:31 2024
+Asymmetric Multiplex Hyperbolic Embedding (MLNHypEmb-Unsym)
 
-@author: martin.guillemaud
+A Python implementation for embedding asymmetric multiplex networks into hyperbolic space.
+Specifically designed for networks where different layers can have different numbers of nodes.
 
-Multiplex Hyperbolic EMbedding Class
+Key Features:
+- Handles layers with varying numbers of nodes
+- Supports multiple embedding methods (Isomap, Spectral)
+- Implements various radius computation strategies
+- Provides flexible edge weighting options
 
+Mathematical Background:
+- Uses Poincaré disk model for hyperbolic embedding
+- Supports both local (per-layer) and global network structure
+- Implements adaptive radius computation based on network topology
+
+Author: Martin Guillemaud
+Created: Dec 30, 2024
 """
 
-
-## LIBRAIRIES IMPORTATION
+## LIBRARY IMPORTS
 from sklearn.metrics import pairwise_distances
 import numpy as np 
 import networkx as nx
@@ -23,7 +34,17 @@ from sklearn.manifold import Isomap
 ## CLASS DEFINITION 
 class MlHypEmbUnsym:
     """
-    Class for embedding multiplex in the hyperbolic space e.g. the Poincaré Disk for layers with different number of nodes.
+    Hyperbolic embedding for asymmetric multiplex networks.
+    
+    This class implements methods to embed multilayer networks with different numbers of nodes per layer 
+    into the Poincaré disk model of hyperbolic space. It supports various embedding strategies and 
+    radius computation methods.
+
+    Key Features:
+        - Handles layers with different numbers of nodes
+        - Supports both weighted and unweighted networks
+        - Implements multiple radius computation strategies
+        - Offers pre-weighting mechanisms for edge importance
     """
     
     def __init__(self, preweight=True, weight='weight', beta=0.9, eta='auto', method='Isomap', beta_dist=1000, metric='precomputed', n_neighbors='auto', radius='order', message=True):
@@ -128,34 +149,25 @@ class MlHypEmbUnsym:
     
     def Load_data(self, matrices, L_global): 
         """
-        Loads and preprocesses the data for graph-based embedding.
+        Loads and preprocesses network data for embedding.
     
-        This method processes the input connectivity matrices, validates optional matrices 
-        (`mu_mat` and `L_global`), and computes the necessary variables for graph-based embedding. 
-        It ensures that the matrices are square, checks symmetry for `mu_mat` and `L_global`, 
-        applies pre-weighting if required, and constructs the global Laplacian matrix.
+        Processes input matrices representing different network layers and their global structure.
+        Handles asymmetric cases where layers can have different numbers of nodes.
     
         Parameters
         ----------
         matrices : list of np.ndarray
-            A list of square connectivity matrices representing the layers.
-        mu_mat : np.ndarray, int or None, optional
-            A square, symmetric matrix representing the coupling between layers. If None, 
-            a matrix of zeros will be used. if int : the coopling between correponding nodes will be set to the value of mu_mat The default is None.
+            List of adjacency matrices, one per layer. Matrices can have different dimensions.
         L_global : np.ndarray 
-            A square, symmetric matrix representing the global Laplacian matrix. 
-        Raises
-        ------
-        TypeError
-            If any of the parameters is not of the expected type (e.g., `matrices` is not a list of `np.ndarray`).
-        ValueError
-            If any of the matrices are not square or do not match the expected shape, 
-            or if `mu_mat` or `L_global` are not square or symmetric.
-    
-        Returns
-        -------
-        None
-            The function does not return anything; it initializes the object with the specified parameters.
+            Global Laplacian matrix representing the complete multilayer structure.
+            Must be symmetric and have dimensions matching the total number of nodes.
+
+        Notes
+        -----
+        - Performs validation checks on input matrices
+        - Constructs graph representations for each layer
+        - Applies pre-weighting if enabled
+        - Computes necessary indices for layer management
         """
         
         # Ensure matrices is a list of numpy arrays with matching shapes
@@ -234,26 +246,32 @@ class MlHypEmbUnsym:
 
     def Embedding(self, n_jobs=-1):
         """
-        Embeds the global graph and individual layers into Poincaré disk model of the hyperbolic space.
-        
+        Performs hyperbolic embedding of the multiplex network.
+
+        Embeds the global network structure into the Poincaré disk model using dimensionality 
+        reduction techniques. Handles the asymmetric case where layers have different numbers of nodes.
+
         Parameters
         ----------
-        n_jobs : int, optional
-            The number of parallel jobs to use for the embedding computation. 
-            Must be -1 (use all available processors) or a positive integer. 
-            Default is -1.
-        
-        Raises
-        ------
-        ValueError
-            If `n_jobs` is not -1 or a positive integer.
-        
-        Returns
-        -------
-        None
-            The function does not return anything; it updates the class attributes:
-            - `self.embeddings`: List of embeddings for each layer after dimensionality reduction.
-            - `self.n_jobs`: Stores the value of `n_jobs`.
+        n_jobs : int, default=-1
+            Number of parallel jobs for computation. Use -1 for all available cores.
+
+        Technical Details
+        ----------------
+        1. Performs dimensionality reduction using either:
+           - Spectral embedding
+           - Isomap embedding
+        2. Extracts individual layer embeddings
+        3. Computes node radii using selected strategy:
+           - Order-based: based on node degree ordering
+           - Degree-based: using hyperbolic tangent of degrees
+           - LogDegree-based: using power law of degrees
+        4. Projects embeddings onto the Poincaré disk
+
+        Notes
+        -----
+        The embedding process preserves both the network structure and the 
+        hierarchical relationships between nodes.
         """
         
         # Validate the `n_jobs` parameter
@@ -314,12 +332,6 @@ class MlHypEmbUnsym:
         self.embeddings = emb_r_tot
 
         return None
-
-
-        
-
-
-
 
 
 ## MAIN 

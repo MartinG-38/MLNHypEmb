@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use MLNHypEmb in your research, please cite this software as below."
+title: "MLNHypEmb: Hyperbolic Embedding for Multilayer Networks"
+authors:
+  - family-names: Guillemaud
+    given-names: Martin
+    orcid: "https://orcid.org/0009-0002-2523-8712"
+date-released: "2025-01-01"
+version: "1.0.0"
+license: "BSD-3-Clause"
+repository-code: "https://github.com/MartinG-38/MLNHypEmb.git"
+url: "https://github.com/MartinG-38/MLNHypEmb.git"
+keywords:
+  - hyperbolic embedding
+  - multilayer networks
+  - multiplex networks
+  - network science
+  - Poincaré disk
+  - python
+type: software
+doi: ""  # À remplir avec le DOI ZENODO
+references:
+  - type: article
+    authors:
+      - family-names: Guillemaud
+        given-names: Martin
+        # ...ajoutez d'autres auteurs si besoin...
+    title: "Titre du papier associé"
+    journal: "Nom de la revue"
+    year: 202X
+    doi: ""  # À remplir avec le DOI du papier
+    # Ajoutez d'autres champs si nécessaire (volume, pages, etc.)

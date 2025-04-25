@@ -6,23 +6,20 @@
 
 ## Features
 
-- **Layer-wise Hyperbolic Embedding:**  
-  Embed each layer of a multiplex network independently or jointly in the Poincaré disk, preserving both local and global network geometry.
+- **Layer-wise Hyperbolic Embedding in the Poincaré Disk:**  
+    Perform hyperbolic embedding for each layer of a multiplex or multilayer network, either independently or jointly, while preserving both local and global geometric structures.
 
-- **Flexible Network Support:**  
-  Handles both synthetic (e.g., Stochastic Block Model) and real-world multiplex networks, including cases where layers have different numbers of nodes.
+- **Support for Multiplex and Multilayer Networks:**  
+    Compatible with networks having identical or distinct node sets across layers, with or without inter-layer connections.
 
-- **Multiple Embedding Methods:**  
-  Supports Isomap and Spectral embedding techniques for dimensionality reduction.
+- **Synthetic Network Generation with SBM:**  
+    Includes a multilayer Stochastic Block Model (SBM) generator for testing and benchmarking on synthetic networks.
 
-- **Customizable Radius Attribution:**  
-  Several strategies for assigning node radii in hyperbolic space (degree-based, order-based, log-degree).
+- **Advanced Hyperbolic Geometry Tools:**  
+    Features barycenter estimation in the Poincaré disk using the Klein disk model and hyperbolic Gaussian estimation for point distributions via the tangent plane.
 
-- **Edge Pre-weighting and Coupling:**  
-  Options for edge weighting and inter-layer coupling to control embedding influence.
-
-- **Visualization Tools:**  
-  Functions for visualizing embedded networks in the Poincaré disk, including community coloring and perturbation analysis.
+- **Visualization and Analysis Tools:**  
+    Provides functions for visualizing embeddings in the Poincaré disk, including community detection, perturbation analysis, and layer-specific visualizations.
 
 ---
 

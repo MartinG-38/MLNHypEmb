@@ -36,14 +36,18 @@ MLNHypEmb/
 │   ├── OpenData.py
 │   ├── Tools.py
 │   ├── VizData.py
-├── Multiplex_kaptail_example.ipynb              # Example: Real-world Kapferer tailor shop multiplex network
-├── Multiplex_SBM_example.ipynb                  # Example: Synthetic SBM multiplex network
-├── Multiplex_SBM_unsymmetric_example.ipynb      # Example: SBM multiplex network with asymmetric layers
-├── Hyperbolic_gaussian_estimation_example.ipynb # Example: Hyperbolic Gaussian estimation in the Poincaré disk
-├── README.md                                    # Project documentation
-├── LICENSE                                      # BSD 3-Clause License
-├── requirements.txt                             # Python dependencies
+├── Data/                                         # Example data for the Kapferer tailor shop (see notebook, data from http://casos.cs.cmu.edu/computational_tools/datasets/sets/kaptail/)
+├── Multiplex_kaptail_example.ipynb               # Example: Real-world Kapferer tailor shop multiplex network
+├── Multiplex_SBM_example.ipynb                   # Example: Synthetic SBM multiplex network
+├── Multiplex_SBM_unsymmetric_example.ipynb       # Example: SBM multiplex network with asymmetric layers
+├── Hyperbolic_gaussian_estimation_example.ipynb  # Example: Hyperbolic Gaussian estimation in the Poincaré disk
+├── README.md                                     # Project documentation
+├── LICENSE                                       # BSD 3-Clause License
+├── requirements.txt                              # Python dependencies
 ```
+
+*The `Data/` directory contains the example datasets used in the Kapferer tailor shop notebook.  
+Kapferer data source: http://casos.cs.cmu.edu/computational_tools/datasets/sets/kaptail/*
 
 ---
 

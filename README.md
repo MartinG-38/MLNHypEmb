@@ -36,8 +36,10 @@ MLNHypEmb/
 │   ├── OpenData.py                # Data loading and synthetic network generation (SBM, perturbations)
 │   ├── Tools.py                   # Hyperbolic geometry utilities (distance, alignment, barycenter, etc.)
 │   ├── VizData.py                 # Visualization utilities for hyperbolic embeddings
-├── Multiplex_kaptail_example.ipynb    # Example: Real-world Kapferer tailor shop multiplex network
-├── Multiplex_SBM_example.ipynb        # Example: Synthetic SBM multiplex network
+├── Multiplex_kaptail_example.ipynb        # Example: Real-world Kapferer tailor shop multiplex network
+├── Multiplex_SBM_example.ipynb            # Example: Synthetic SBM multiplex network
+├── Multiplex_SBM_perturbation_example.ipynb   # Example: SBM multiplex network with perturbation
+├── Multiplex_SBM_unsym_example.ipynb          # Example: SBM multiplex network with asymmetric layers
 ├── README.md
 ```
 
@@ -104,6 +106,12 @@ for i, G in enumerate(G_tot):
 
 - **Multiplex_SBM_example.ipynb**  
   Demonstrates generation, embedding, and visualization of synthetic SBM multiplex networks.
+
+- **Multiplex_SBM_perturbation_example.ipynb**  
+  Example of generating, embedding, and analyzing SBM multiplex networks with controlled perturbations between layers.
+
+- **Multiplex_SBM_unsym_example.ipynb**  
+  Example of embedding and analyzing SBM multiplex networks with asymmetric (different node count) layers.
 
 ---
 

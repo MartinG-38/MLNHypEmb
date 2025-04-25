@@ -43,6 +43,7 @@ MLNHypEmb/
 ├── Hyperbolic_gaussian_estimation_example.ipynb  # Example: Hyperbolic Gaussian estimation in the Poincaré disk
 ├── README.md                                     # Project documentation
 ├── LICENSE                                       # BSD 3-Clause License
+├── CITATION.cff                                  # Citation metadata file
 ├── requirements.txt                              # Python dependencies
 ```
 

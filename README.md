@@ -37,9 +37,9 @@ MLNHypEmb/
 │   ├── Tools.py
 │   ├── VizData.py
 ├── Data/                                         # Example data for the Kapferer tailor shop (see notebook, data from http://casos.cs.cmu.edu/computational_tools/datasets/sets/kaptail/)
-├── Multiplex_kaptail_example.ipynb               # Example: Real-world Kapferer tailor shop multiplex network
-├── Multiplex_SBM_example.ipynb                   # Example: Synthetic SBM multiplex network
-├── Multiplex_SBM_unsymmetric_example.ipynb       # Example: SBM multiplex network with asymmetric layers
+├── Multilayers_kaptail_example.ipynb             # Example: Real-world Kapferer tailor shop multilayer network
+├── Multilayers_SBM_example.ipynb                 # Example: Synthetic SBM multilayer network
+├── Multilayers_SBM_unsymmetric_example.ipynb     # Example: SBM multilayer network with asymmetric layers
 ├── Hyperbolic_gaussian_estimation_example.ipynb  # Example: Hyperbolic Gaussian estimation in the Poincaré disk
 ├── README.md                                     # Project documentation
 ├── LICENSE                                       # BSD 3-Clause License
@@ -107,14 +107,14 @@ for i, G in enumerate(G_tot):
 
 ## Notebooks
 
-- **Multiplex_kaptail_example.ipynb**  
+- **Multilayers_kaptail_example.ipynb**  
   Step-by-step analysis of the Kapferer tailor shop dataset, including embedding, visualization, perturbation, and coupling analysis.
 
-- **Multiplex_SBM_example.ipynb**  
-  Demonstrates generation, embedding, and visualization of synthetic SBM multiplex networks.
+- **Multilayers_SBM_example.ipynb**  
+  Demonstrates generation, embedding, and visualization of synthetic SBM multilayer networks.
 
-- **Multiplex_SBM_unsymmetric_example.ipynb**  
-  Example of embedding and analyzing SBM multiplex networks with asymmetric (different node count) layers.
+- **Multilayers_SBM_unsymmetric_example.ipynb**  
+  Example of embedding and analyzing SBM multilayer networks with asymmetric (different node count) layers.
 
 - **Hyperbolic_gaussian_estimation_example.ipynb**  
   Demonstrates estimation and visualization of Gaussian distributions in hyperbolic space (Poincaré disk).

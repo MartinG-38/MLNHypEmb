@@ -2,7 +2,7 @@
 
 **MLNHypEmb** is a Python library for embedding multilayer (multiplex) networks into hyperbolic space, with a focus on providing a layer-wise embedding using the Poincaré disk model. This approach enables the geometric analysis and visualization of complex multilayered systems, capturing both intra-layer and inter-layer structures.
 
-The method is detailed in the paper : https://doi.org/10.48550/arXiv.2505.20378 
+The method is detailed in the paper : Guillemaud, M., Dinkelacker, V., & Chavez, M. (2025). Hyperbolic embedding of multilayer networks. arXiv. https://doi.org/10.48550/arXiv.2505.20378 
 
 ---
 

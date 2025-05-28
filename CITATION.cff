@@ -22,11 +22,9 @@ doi: ""  # À remplir avec le DOI ZENODO
 references:
   - type: article
     authors:
-      - family-names: Guillemaud
-        given-names: Martin
-        # ...ajoutez d'autres auteurs si besoin...
-    title: "Titre du papier associé"
-    journal: "Nom de la revue"
-    year: 202X
-    doi: ""  # À remplir avec le DOI du papier
-    # Ajoutez d'autres champs si nécessaire (volume, pages, etc.)
+      - family-names: Guillemaud, Dinkelacker, Chavez
+        given-names: Martin, Ver, Mario
+    title: "Hyperbolic embedding of multilayer networks"
+    journal: "ArXiv Preprint"
+    year: 2025
+    doi: https://doi.org/10.48550/arXiv.2505.20378

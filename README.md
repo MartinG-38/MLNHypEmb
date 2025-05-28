@@ -2,6 +2,8 @@
 
 **MLNHypEmb** is a Python library for embedding multilayer (multiplex) networks into hyperbolic space, with a focus on providing a layer-wise embedding using the Poincaré disk model. This approach enables the geometric analysis and visualization of complex multilayered systems, capturing both intra-layer and inter-layer structures.
 
+The method is detailed in the paper : https://doi.org/10.48550/arXiv.2505.20378 
+
 ---
 
 ## Features
@@ -131,7 +133,7 @@ for i, G in enumerate(G_tot):
 
 ## Citation
 
-If you use MLNHypEmb in your research, please cite:
+If you use MLNHypEmb in your research or project, please cite as mentionned in the Licence:
 
 ```
 @software{guillemaud2025mlnhypemb,
@@ -142,7 +144,17 @@ If you use MLNHypEmb in your research, please cite:
 }
 ```
 
-**If you use this library for published work, please also cite the associated paper (citation will be provided here once published).**
+**If you use this library for published work, please also cite the associated paper.**
+
+```
+@misc{guillemaud2025hyperbolicembeddingmultilayernetworks,
+      title={Hyperbolic embedding of multilayer networks}, 
+      author={Martin Guillemaud and Vera Dinkelacker and Mario Chavez},
+      year={2025},
+      archivePrefix={arXiv},
+      url={https://doi.org/10.48550/arXiv.2505.20378}, 
+}
+```
 
 ---
 
@@ -150,19 +162,10 @@ If you use MLNHypEmb in your research, please cite:
 
 This project is licensed under the BSD 3-Clause License.
 
-- **Copyright (c) 2025, Martin Guillemaud**
+- **Copyright (c) 2025, Martin Guillemaud, Sorbonne Universite, INRIA**
 - All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-1. **Redistributions of source code** must retain the above copyright notice, this list of conditions and the following disclaimer.
-2. **Redistributions in binary form** must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-3. **Neither the name of the author nor the names of its contributors** may be used to endorse or promote products derived from this software without specific prior written permission.
-
-**Disclaimer:**  
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-Any commercial use, redistribution, or modification of this library must comply with the terms above. If you use this code as part of a larger software or research project, proper attribution is required.
+See LICENSE file for more information
 
 ---
 

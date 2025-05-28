@@ -4,6 +4,8 @@
 
 The method is detailed in the paper : Guillemaud, M., Dinkelacker, V., & Chavez, M. (2025). Hyperbolic embedding of multilayer networks. arXiv. https://doi.org/10.48550/arXiv.2505.20378 
 
+[![DOI](https://zenodo.org/badge/DOI/10.48550/arXiv.2505.20378.svg)](https://doi.org/10.48550/arXiv.2505.20378)
+
 ---
 
 ## Features

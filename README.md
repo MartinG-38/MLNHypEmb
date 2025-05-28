@@ -7,7 +7,9 @@ The method is detailed in the paper : Guillemaud, M., Dinkelacker, V., & Chavez,
 [![DOI](https://zenodo.org/badge/DOI/10.48550/arXiv.2505.20378.svg)](https://doi.org/10.48550/arXiv.2505.20378)
 
 The latest release of this code is archived on Zenodo:
+
 [![DOI](https://zenodo.org/badge/971381669.svg)](https://doi.org/10.5281/zenodo.15535819)
+
 ---
 
 ## Features

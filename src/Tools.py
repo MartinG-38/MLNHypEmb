@@ -447,59 +447,99 @@ def rotationnal_alignement(emb_1, emb_2, n_angles=360):
 
     return emb_2_aligned, optimal_angle, min_error
 
-def rotationnal_alignement_all(emb_1, emb_2, n_angles=360):
-    """
-    Align two embeddings using rotation to minimize the hyperbolic distance and return scores for all angles.
 
-    Parameters
-    ----------
-    emb_1 : array-like, shape (n, 2)
-        First embedding, where each row represents the coordinates [x, y] of a node in the Poincaré disk.
-    emb_2 : array-like, shape (n, 2)
-        Second embedding, where each row represents the coordinates [x, y] of the same nodes in the Poincaré disk.
-    n_angles : int, optional
-        Number of angles to test for rotation. Default is 360.
+def rotationnal_alignement_all(emb_1, emb_2, n_angles=360, axis='x'):
+    """
+    Function that does the alignment and also tests axis inversions, returning the best case
+    Enhanced version of rotationnal_alignement_all that also tests exactly two scenarios:
+      - No flip
+      - Flip on a single specified axis (x or y) applied to emb_2
+
+    For each configuration it scans `n_angles` rotations and keeps the minimal
+    nan-mean hyperbolic distance.
+
+    Arguments
+    ---------
+    emb_1 : np.array (n, 2)
+        First embedding in the Poincaré disk.
+    emb_2 : np.array (n, 2)
+        Second embedding in the Poincaré disk.
+    n_angles : int
+        Number of angles to test on [0, 2π].
+    axis : str in {'x','y'}
+        Which axis to flip for the second scenario.
 
     Returns
     -------
-    emb_2_aligned : array-like, shape (n, 2)
-        Aligned second embedding.
+    emb_2_aligned : np.array (n, 2)
+        Best aligned version of emb_2 (after optional flip and rotation) in the
+        original frame of emb_1.
     optimal_angle : float
-        Optimal rotation angle (in radians).
+        Angle (in radians) achieving the minimal error for the selected scenario.
     min_error : float
-        Minimum error (mean of hyperbolic distances).
+        Minimal nan-mean hyperbolic distance obtained.
     errors : list of float
-        Errors for each tested angle.
-    angles : list of float
-        Tested angles in radians.
+        Per-angle errors for the selected best scenario.
+    angles : np.array
+        Angles tested (linspace from 0 to 2π).
     """
+
     def rotate(embedding, angle):
-        """Apply a 2D rotation to the embedding."""
         rotation_matrix = np.array([[np.cos(angle), -np.sin(angle)],
-                                    [np.sin(angle), np.cos(angle)]])
+                                    [np.sin(angle),  np.cos(angle)]])
         return np.dot(embedding, rotation_matrix.T)
 
-    # Initialize variables
-    angles = np.linspace(0, 2 * np.pi, n_angles)  # Test angles from 0 to 2π
-    min_error = float('inf')
-    optimal_angle = 0
-    emb_2_aligned = emb_2
+    def flip_axis(embedding, axis):
+        if axis == 'x':
+            out = embedding.copy()
+            out[:, 0] *= -1
+            return out
+        if axis == 'y':
+            out = embedding.copy()
+            out[:, 1] *= -1
+            return out
+        return embedding
 
-    # Initialize an array to store errors for each angle
-    errors = []
+    angles = np.linspace(0, 2 * np.pi, n_angles)
 
-    # Iterate over angles to find the optimal rotation
-    for angle in angles:
-        rotated_emb_2 = rotate(emb_2, angle)
-        distances = poincare_distance(emb_1, rotated_emb_2)
-        error = np.nanmean(distances)  # Ignore NaN values
-        errors.append(error)  # Store error for this angle
-        if error < min_error:
-            min_error = error
-            optimal_angle = angle
-            emb_2_aligned = rotated_emb_2
+    # Track the overall best scenario
+    best_error = float('inf')
+    best_angle = 0.0
+    best_emb2_aligned = emb_2
+    best_errors = []
 
-    return emb_2_aligned, optimal_angle, min_error, errors, angles 
+    # Only two scenarios: no flip, and flip on `axis` for emb_2
+    scenarios = [
+        (False, False),
+        (False, True),
+    ]
+
+    for _, flip2 in scenarios:
+        emb1_cur = emb_1
+        emb2_cur = flip_axis(emb_2, axis) if flip2 else emb_2
+
+        scenario_min = float('inf')
+        scenario_angle = 0.0
+        scenario_errors = []
+        scenario_best_rot = emb2_cur
+
+        for angle in angles:
+            rot2 = rotate(emb2_cur, angle)
+            dists = poincare_distance(emb1_cur, rot2)
+            err = np.nanmean(dists)
+            scenario_errors.append(err)
+            if err < scenario_min:
+                scenario_min = err
+                scenario_angle = angle
+                scenario_best_rot = rot2
+
+        if scenario_min < best_error:
+            best_error = scenario_min
+            best_angle = scenario_angle
+            best_emb2_aligned = scenario_best_rot
+            best_errors = scenario_errors
+
+    return best_emb2_aligned, best_angle, best_error, best_errors, angles
 
 ## MAIN 
 if __name__ =="__main__" :

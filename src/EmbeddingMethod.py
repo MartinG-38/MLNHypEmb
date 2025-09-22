@@ -230,6 +230,7 @@ class MlHypEmb:
                     d_1 = nx.degree(G, edge[0])
                     d_2 = nx.degree(G, edge[1])
                     G[edge[0]][edge[1]]['weight'] = (d_1 + d_2 + d_1 * d_2) / (1 + CN)
+                # Application of the log transformation to the weighted adjacency matrix to avoid tail effects
                 W = np.log(nx.adjacency_matrix(G).toarray() + 1)
                 Graphs_tot[i] = G
                 W_tot[i] = W
@@ -302,6 +303,7 @@ class MlHypEmb:
             # Perform Isomap embedding
             embedding = Isomap(n_components=2, n_neighbors=n_neighbors, eigen_solver='dense',
                                n_jobs=n_jobs, metric=self.metric, neighbors_algorithm='brute')
+            # Fit the data in the model. Adjacency matrix must be converted to a distance matrix using an exponential decay
             L_global_emb = embedding.fit_transform(np.exp(-self.L_global / self.beta_dist))
 
         # Extract embeddings for individual layers

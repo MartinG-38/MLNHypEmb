@@ -401,52 +401,6 @@ def poincare_distance(x, y):
     diff_norm = np.linalg.norm(x - y, axis=-1)
     return np.arccosh(1 + 2 * (diff_norm**2) / ((1 - norm_x**2) * (1 - norm_y**2)))
 
-def rotationnal_alignement(emb_1, emb_2, n_angles=360):
-    """
-    Align two embeddings using rotation to minimize the hyperbolic distance.
-
-    Parameters
-    ----------
-    emb_1 : array-like, shape (n, 2)
-        First embedding, where each row represents the coordinates [x, y] of a node in the Poincaré disk.
-    emb_2 : array-like, shape (n, 2)
-        Second embedding, where each row represents the coordinates [x, y] of the same nodes in the Poincaré disk.
-    n_angles : int, optional
-        Number of angles to test for rotation. Default is 360.
-
-    Returns
-    -------
-    emb_2_aligned : array-like, shape (n, 2)
-        Aligned second embedding.
-    optimal_angle : float
-        Optimal rotation angle (in radians).
-    min_error : float
-        Minimum error (mean of hyperbolic distances).
-    """
-    def rotate(embedding, angle):
-        """Apply a 2D rotation to the embedding."""
-        rotation_matrix = np.array([[np.cos(angle), -np.sin(angle)],
-                                    [np.sin(angle), np.cos(angle)]])
-        return np.dot(embedding, rotation_matrix.T)
-
-    # Initialize variables
-    angles = np.linspace(0, 2 * np.pi, n_angles)  # Test angles from 0 to 2π
-    min_error = float('inf')
-    optimal_angle = 0
-    emb_2_aligned = emb_2
-
-    # Iterate over angles to find the optimal rotation
-    for angle in angles:
-        rotated_emb_2 = rotate(emb_2, angle)
-        distances = poincare_distance(emb_1, rotated_emb_2)
-        error = np.nanmean(distances)  # Ignore NaN values
-        if error < min_error:
-            min_error = error
-            optimal_angle = angle
-            emb_2_aligned = rotated_emb_2
-
-    return emb_2_aligned, optimal_angle, min_error
-
 
 def rotationnal_alignement_all(emb_1, emb_2, n_angles=360, axis='x'):
     """
